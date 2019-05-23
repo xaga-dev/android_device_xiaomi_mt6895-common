@@ -191,6 +191,7 @@ ro.vendor.mtk.sensor.support=yes
 ro.soc.manufacturer=Mediatek
 
 # SurfaceFlinger
+ro.surface_flinger.wcg_composition_dataspace=143261696
 ro.surface_flinger.primary_display_orientation=ORIENTATION_0
 ro.surface_flinger.force_hwc_copy_for_virtual_displays=true
 ro.surface_flinger.max_frame_buffer_acquired_buffers=6
