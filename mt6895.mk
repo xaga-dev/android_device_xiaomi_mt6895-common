@@ -91,6 +91,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.bluetooth-service.mediatek
 
+# Camera
+$(call soong_config_set,libcameraservice,ext_lib,//$(LOCAL_PATH):libcameraservice_extension.xiaomi_mt6895)
+
 # ConsumerIR
 PRODUCT_PACKAGES += \
     android.hardware.ir-service.example
