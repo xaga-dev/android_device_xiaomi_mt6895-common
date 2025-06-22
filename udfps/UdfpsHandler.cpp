@@ -103,6 +103,7 @@ class XiaomiMt6895UdfpsHandler : public UdfpsHandler {
     }
 
     void onFingerDown(uint32_t /*x*/, uint32_t /*y*/, float /*minor*/, float /*major*/) {
+        if (mAuthSuccess) return;
         LOG(INFO) << __func__;
         setFingerDown(true);
     }
@@ -132,9 +133,19 @@ class XiaomiMt6895UdfpsHandler : public UdfpsHandler {
         setFodStatus(FOD_STATUS_OFF);
     }
 
+    void onAuthenticationSucceeded() {
+        mAuthSuccess = true;
+        onFingerUp();
+        std::thread([this]() {
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            mAuthSuccess = false;
+        }).detach();
+    }
+
   private:
     fingerprint_device_t* mDevice;
     android::base::unique_fd touch_fd_;
+    bool mAuthSuccess = false;
 
     void setFodStatus(int value) {
         int buf[MAX_BUF_SIZE] = {TOUCH_ID, Touch_Fod_Enable, value};
