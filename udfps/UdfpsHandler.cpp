@@ -1,8 +1,5 @@
-/*
- * Copyright (C) 2022 The LineageOS Project
- *
- * SPDX-License-Identifier: Apache-2.0
- */
+// SPDX-FileCopyrightText: The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
 
 #define LOG_TAG "UdfpsHandler.xiaomi_mt6895"
 
