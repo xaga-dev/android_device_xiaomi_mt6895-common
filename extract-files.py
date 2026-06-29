@@ -59,6 +59,8 @@ blob_fixups: blob_fixups_user_type = {
         .replace_needed('libavservices_minijail_vendor.so', 'libavservices_minijail.so'),
     'vendor/lib64/hw/sensors.mediatek.V2.0.so': blob_fixup()
         .replace_needed('libstagefright_foundation.so', 'libstagefright_foundation-v33.so'),
+    ('vendor/lib64/libcodec2_mtk_vdec.so', 'vendor/lib64/libcodec2_mtk_venc.so'): blob_fixup()
+        .replace_needed('libformatter.so', 'libformatter_mtk.so'),
     'vendor/bin/hw/android.hardware.security.keymint@1.0-service.beanpod': blob_fixup()
         .replace_needed('android.hardware.security.keymint-V1-ndk_platform.so', 'android.hardware.security.keymint-V3-ndk.so')
         .replace_needed('android.hardware.security.sharedsecret-V1-ndk_platform.so', 'android.hardware.security.sharedsecret-V1-ndk.so')
