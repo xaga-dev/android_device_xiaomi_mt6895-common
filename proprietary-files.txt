@@ -165,6 +165,7 @@ vendor/firmware/soc7_0_ram_mcu_1b_t_1_hdr.bin|b33fa0d812d4371192c632243902f94ac7
 vendor/lib64/hw/consumerir.common.so
 
 # Display
+vendor/lib64/android.frameworks.displayservice@1.0.so
 vendor/bin/hw/mt6895/android.hardware.graphics.allocator@4.0-service-mediatek.mt6895;SYMLINK=vendor/bin/hw/android.hardware.graphics.allocator@4.0-service-mediatek
 vendor/bin/hw/vendor.mediatek.hardware.pq@2.2-service
 vendor/etc/init/android.hardware.graphics.allocator@4.0-service-mediatek.rc
