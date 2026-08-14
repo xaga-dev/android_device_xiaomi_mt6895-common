@@ -287,7 +287,7 @@ vendor/lib64/hw/android.hardware.gnss-impl-mediatek.so
 vendor/lib64/hw/android.hardware.gnss@2.1-impl-mediatek.so
 vendor/lib64/hw/gps.default.so
 vendor/lib64/mt6895/libDR.so;SYMLINK=vendor/lib64/libDR.so
-vendor/lib64/mt6895/libmnl.so;SYMLINK=vendor/lib64/libmnl.so
+vendor/lib64/mt6895/libmnl.so:vendor/lib64/mt6895/libmnl-mtk.so;FIX_SONAME;SYMLINK=vendor/lib64/libmnl-mtk.so
 vendor/lib64/librpc.so
 vendor/lib64/libviagpsrpc.so
 
