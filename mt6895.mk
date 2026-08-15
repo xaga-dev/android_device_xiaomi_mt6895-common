@@ -312,7 +312,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH) \
     $(LOCAL_PATH)/bluetooth-audio \
-    hardware/google/pixel \
+    hardware/google/pixel/pixelstats \
+    hardware/google/pixel/power-libperfmgr \
     hardware/google/interfaces \
     hardware/lineage/interfaces/power-libperfmgr \
     hardware/mediatek \
