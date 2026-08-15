@@ -111,7 +111,6 @@ PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
 PRODUCT_PACKAGES += \
     android.hardware.fastboot-service.example_recovery \
-    fastbootd
 
 # Fingerprint
 PRODUCT_PACKAGES += \
