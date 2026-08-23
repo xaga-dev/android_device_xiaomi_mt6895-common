@@ -602,9 +602,7 @@ vendor/lib64/vendor.microtrust.hardware.thh@2.0.so
 vendor/lib64/wechat.beanpod.so
 
 # Wi-Fi
-vendor/bin/wlan_assistant
 vendor/etc/init/init.wlan_drv.rc
-vendor/etc/init/wlan_assistant.rc
 vendor/etc/wifi/passpointProfile.conf
 
 # Wi-Fi (Firmware) - from aristotle
