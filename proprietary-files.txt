@@ -294,12 +294,12 @@ vendor/lib64/libviagpsrpc.so
 # IMS - from aristotle
 system_ext/bin/vtservice|4a8759f67cc4f238983c57193d88d1cc13956e06
 system_ext/etc/init/init.vtservice.rc|50a2249906edc06059b443513db47a2ddc0490dc|d1bad63ed1e5dc8cbf02c5ec37022a7753330729
-system_ext/framework/mediatek-ims-base.jar:system/framework/mediatek-ims-base.jar;BOOT_JAR|379037af7466fd3a25afd95cedecdfe005afe839
-system_ext/framework/mediatek-ims-common.jar:system/framework/mediatek-ims-common.jar;BOOT_JAR|055c104850308d836ac72f0f12149e27364070f9
+system_ext/framework/mediatek-ims-base.jar;BOOT_JAR|379037af7466fd3a25afd95cedecdfe005afe839
+system_ext/framework/mediatek-ims-common.jar;BOOT_JAR|055c104850308d836ac72f0f12149e27364070f9
 system_ext/framework/mediatek-ims-extension-plugin.jar|a355792e0ad157f927df2a3f9a36c0196e828cd6
-system_ext/framework/mediatek-telecom-common.jar:system/framework/mediatek-telecom-common.jar;BOOT_JAR|c14380acb9467b998423c3155c5beb375df6d877
-system_ext/framework/mediatek-telephony-base.jar:system/framework/mediatek-telephony-base.jar;BOOT_JAR|550bf80fb247b1809da7d53c5e586e64564e7cd2
-system_ext/framework/mediatek-telephony-common.jar:system/framework/mediatek-telephony-common.jar;BOOT_JAR|170542c916f6ad8e6ea6e4cdec76b714fcb35b8c
+system_ext/framework/mediatek-telecom-common.jar;BOOT_JAR|c14380acb9467b998423c3155c5beb375df6d877
+system_ext/framework/mediatek-telephony-base.jar;BOOT_JAR|550bf80fb247b1809da7d53c5e586e64564e7cd2
+system_ext/framework/mediatek-telephony-common.jar;BOOT_JAR|3418185e50c76a1ac42c0a9869562c3bd46fb72a
 system_ext/lib64/libcomutils.so|05cdfb5eb128b670ec182235e75efeec2dd21773
 system_ext/lib64/libimsma.so|ecc97c137cd7ef1427a64155ddaf8901db1378a9|cf108c7c9658041aa93c89b4ea2cee96901a2b85
 system_ext/lib64/libimsma_adapt.so|2d19ab68fa39b9f4eb24be744ae18ca98f70b767
