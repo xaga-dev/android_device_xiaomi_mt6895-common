@@ -9,8 +9,14 @@
 #include "A2dpOffloadAudioProvider.h"
 
 #include <android-base/logging.h>
+#include <android-base/properties.h>
+#include <dlfcn.h>
 #include <fmq/MessageQueue.h>
 #include <hidl/MQDescriptor.h>
+#include <string>
+
+#include <vendor/mediatek/hardware/bluetooth/audio/2.1/IBluetoothAudioPort.h>
+#include <vendor/mediatek/hardware/bluetooth/audio/2.2/types.h>
 
 #include "BluetoothAudioSessionReport_2_1.h"
 #include "BluetoothAudioSupportedCodecsDB_2_1.h"
@@ -28,7 +34,76 @@ using ::android::hardware::MessageQueue;
 using ::android::hardware::Void;
 using ::android::hardware::bluetooth::audio::V2_0::AudioConfiguration;
 
+using MtkAudioPort = ::vendor::mediatek::hardware::bluetooth::audio::V2_1::IBluetoothAudioPort;
+using MtkAudioConfiguration = ::vendor::mediatek::hardware::bluetooth::audio::V2_2::AudioConfiguration;
+
 using DataMQ = MessageQueue<uint8_t, kSynchronizedReadWrite>;
+
+static void* sAudioHalHandle = nullptr;
+static void* sMtkAudioHw = nullptr;
+
+static bool initAudioHal() {
+  if (sMtkAudioHw != nullptr) {
+    return true;
+  }
+
+  std::string platform = android::base::GetProperty("ro.board.platform", "");
+  if (platform.empty()) {
+    return false;
+  }
+
+  std::string path = "/vendor/lib64/hw/audio.primary." + platform + ".so";
+  sAudioHalHandle = dlopen(path.c_str(), RTLD_NOW);
+  if (sAudioHalHandle == nullptr) {
+    LOG(ERROR) << __func__ << ": failed to open " << path << ": " << dlerror();
+    return false;
+  }
+
+  auto createMTKAudioHardware = reinterpret_cast<void* (*)()>(
+      dlsym(sAudioHalHandle, "createMTKAudioHardware"));
+  if (createMTKAudioHardware != nullptr) {
+    sMtkAudioHw = createMTKAudioHardware();
+  }
+  return (sMtkAudioHw != nullptr);
+}
+
+static void setBtOffloadParam(const sp<IBluetoothAudioPort>& hostIf,
+                              const V2_1::AudioConfiguration& audioConfig,
+                              bool bEnable, int sessionType) {
+  if (!initAudioHal()) {
+    return;
+  }
+
+  using SetParamFn = int (*)(void* hw, const sp<MtkAudioPort>& hostIf,
+                             const MtkAudioConfiguration& audioConfig,
+                             bool bEnable, int btType);
+  static auto fn = reinterpret_cast<SetParamFn>(dlsym(
+      sAudioHalHandle,
+      "_ZN7android17AudioALSAHardware29setBluetoothAudioOffloadParamERKNS_2spIN6"
+      "vendor8mediatek8hardware9bluetooth5audio4V2_119IBluetoothAudioPortEEERKNS6"
+      "_4V2_218AudioConfigurationEbi"));
+
+  if (fn != nullptr) {
+    fn(sMtkAudioHw, reinterpret_cast<const sp<MtkAudioPort>&>(hostIf),
+       reinterpret_cast<const MtkAudioConfiguration&>(audioConfig), bEnable,
+       sessionType);
+  }
+}
+
+static void setA2dpSuspendStatus(int status) {
+  if (!initAudioHal()) {
+    return;
+  }
+
+  using SetStatusFn = void (*)(void* hw, int status);
+  static auto fn = reinterpret_cast<SetStatusFn>(dlsym(
+      sAudioHalHandle,
+      "_ZN7android17AudioALSAHardware20setA2dpSuspendStatusEi"));
+
+  if (fn != nullptr) {
+    fn(sMtkAudioHw, status);
+  }
+}
 
 A2dpOffloadAudioProvider::A2dpOffloadAudioProvider()
     : BluetoothAudioProvider() {
@@ -67,6 +142,36 @@ Return<void> A2dpOffloadAudioProvider::startSession(
   }
 
   return BluetoothAudioProvider::startSession(hostIf, audioConfig, _hidl_cb);
+}
+
+Return<void> A2dpOffloadAudioProvider::startSession_2_1(
+    const sp<IBluetoothAudioPort>& hostIf,
+    const V2_1::AudioConfiguration& audioConfig, startSession_cb _hidl_cb) {
+  setBtOffloadParam(hostIf, audioConfig, true,
+                    static_cast<int>(session_type_));
+
+  return BluetoothAudioProvider::startSession_2_1(hostIf, audioConfig,
+                                                  _hidl_cb);
+}
+
+Return<void> A2dpOffloadAudioProvider::streamStarted(
+    BluetoothAudioStatus status) {
+  setA2dpSuspendStatus(static_cast<int>(status));
+
+  return BluetoothAudioProvider::streamStarted(status);
+}
+
+Return<void> A2dpOffloadAudioProvider::streamSuspended(
+    BluetoothAudioStatus status) {
+  setA2dpSuspendStatus(static_cast<int>(status) + 3);
+
+  return BluetoothAudioProvider::streamSuspended(status);
+}
+
+Return<void> A2dpOffloadAudioProvider::endSession() {
+  setBtOffloadParam(nullptr, {}, false, static_cast<int>(session_type_));
+
+  return BluetoothAudioProvider::endSession();
 }
 
 Return<void> A2dpOffloadAudioProvider::onSessionReady(
