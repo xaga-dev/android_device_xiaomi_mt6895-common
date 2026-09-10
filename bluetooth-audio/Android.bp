@@ -6,6 +6,7 @@
 soong_namespace {
     imports: [
         "hardware/mediatek",
+        "vendor/xiaomi/mt6895-common",
     ],
 }
 
@@ -13,6 +14,7 @@ cc_library_shared {
     name: "android.hardware.bluetooth.audio@2.1-impl-mediatek",
     defaults: ["hidl_defaults"],
     vendor: true,
+    compile_multilib: "64",
     relative_install_path: "hw",
     srcs: [
         "BluetoothAudioProvidersFactory.cpp",

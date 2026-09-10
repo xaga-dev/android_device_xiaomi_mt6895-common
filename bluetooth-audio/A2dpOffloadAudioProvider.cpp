@@ -15,9 +15,6 @@
 #include <hidl/MQDescriptor.h>
 #include <string>
 
-#include <vendor/mediatek/hardware/bluetooth/audio/2.1/IBluetoothAudioPort.h>
-#include <vendor/mediatek/hardware/bluetooth/audio/2.2/types.h>
-
 #include "BluetoothAudioSessionReport_2_1.h"
 #include "BluetoothAudioSupportedCodecsDB_2_1.h"
 
@@ -34,11 +31,8 @@ using ::android::hardware::MessageQueue;
 using ::android::hardware::Void;
 using ::android::hardware::bluetooth::audio::V2_0::AudioConfiguration;
 
-using MtkAudioPort = ::vendor::mediatek::hardware::bluetooth::audio::V2_1::IBluetoothAudioPort;
-using MtkAudioConfiguration = ::vendor::mediatek::hardware::bluetooth::audio::V2_2::AudioConfiguration;
-
-using SetParamFn = int (*)(void* hw, const sp<MtkAudioPort>& hostIf,
-                           const MtkAudioConfiguration& audioConfig,
+using SetParamFn = int (*)(void* hw, const void* hostIf,
+                           const void* audioConfig,
                            bool bEnable, int btType);
 using SetStatusFn = void (*)(void* hw, int status);
 
@@ -91,17 +85,8 @@ static bool setBtOffloadParam(const sp<IBluetoothAudioPort>& hostIf,
     return false;
   }
 
-  MtkAudioConfiguration mtkConfig = {};
-  if (bEnable) {
-    mtkConfig.codecConfig(
-        reinterpret_cast<const ::vendor::mediatek::hardware::bluetooth::audio::
-                             V2_1::CodecConfiguration&>(
-            audioConfig.codecConfig()));
-  }
-
-  return sSetBtOffloadParam(sMtkAudioHw,
-                            reinterpret_cast<const sp<MtkAudioPort>&>(hostIf),
-                            mtkConfig, bEnable, sessionType) == 0;
+  return sSetBtOffloadParam(sMtkAudioHw, &hostIf, &audioConfig, bEnable,
+                            sessionType) == 0;
 }
 
 static void setA2dpSuspendStatus(int status) {
