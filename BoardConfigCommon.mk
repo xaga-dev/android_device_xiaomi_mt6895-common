@@ -72,6 +72,7 @@ ifeq ($(TARGET_HAS_UDFPS),true)
 DEVICE_MANIFEST_FILE += $(COMMON_PATH)/configs/vintf/manifest_udfps.xml
 endif
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += \
+    $(COMMON_PATH)/configs/vintf/framework_compatibility_matrix.xml \
     hardware/mediatek/vintf/mediatek_framework_compatibility_matrix.xml \
     hardware/xiaomi/vintf/xiaomi_framework_compatibility_matrix.xml
 
