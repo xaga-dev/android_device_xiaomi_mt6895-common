@@ -67,9 +67,9 @@ TARGET_NO_BOOTLOADER := true
 BOARD_KERNEL_SEPARATED_DTBO := true
 
 # HIDL
-DEVICE_MANIFEST_FILE += $(COMMON_PATH)/manifest.xml
+DEVICE_MANIFEST_FILE += $(COMMON_PATH)/configs/vintf/manifest.xml
 ifeq ($(TARGET_HAS_UDFPS),true)
-DEVICE_MANIFEST_FILE += $(COMMON_PATH)/manifest_udfps.xml
+DEVICE_MANIFEST_FILE += $(COMMON_PATH)/configs/vintf/manifest_udfps.xml
 endif
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += \
     hardware/mediatek/vintf/mediatek_framework_compatibility_matrix.xml \
