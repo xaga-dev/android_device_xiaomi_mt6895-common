@@ -1,0 +1,3 @@
+# Bluetooth A2DP offload
+persist.bluetooth.a2dp_offload.coex_buf_count u:object_r:bluetooth_a2dp_offload_prop:s0 exact int
+persist.bluetooth.a2dp_offload.coex_opcode    u:object_r:bluetooth_a2dp_offload_prop:s0 exact int
