@@ -13,7 +13,7 @@
 static const std::string kTorchBrightnessPath =
         "/sys/class/flashlight_core/flashlight/torchbrightness";
 
-constexpr int32_t kTorchDefaultStrengthLevel = 250;
+constexpr int32_t kTorchDefaultStrengthLevel = 200;
 // The flashlight core sysfs node accepts 380, but the KTD2687 torch register
 // overflows past 377 because the driver converts combined current to a 7-bit
 // per-LED value. Advertising 377 avoids wrapping the register to 0 at 378-380.
